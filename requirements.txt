@@ -4,4 +4,4 @@ joblib
 flask
 Werkzeug
 gunicorn
-cv2
+opencv-python
