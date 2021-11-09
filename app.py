@@ -9,7 +9,6 @@ import sys
 import os
 # import base64
 import cv2
-sys.path.append(os.path.abspath("./model"))
 from load import * 
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__),"ctscan_images")
