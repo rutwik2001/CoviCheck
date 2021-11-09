@@ -35,25 +35,23 @@ def index_view():
 @app.route('/predict',methods=['GET','POST'])
 
 def predict():
-    if request.method == "POST":
-
-        file = request.files['ct_scan']
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        img=cv2.imread('ctscan_images\\'+filename)
-        print(img.shape)
-        categories=["CT_COVID","CT_NonCOVID"]
-        label_dict={"CT_COVID":0,"CT_NonCOVID":1}
-        img=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-        img=cv2.resize(img,(100,100))
-        img2=np.expand_dims(img,axis=0)
-        img2=img2.reshape((1,100,100,1))
-        predictions=model.predict(img2)
-        category_index=model.predict_classes(img2)
-        if(categories[category_index[0]]=="CT_COVID"):
-            pred="Covid +ve"
-        else:
-            pred="Covid -ve"
+    file = request.files['ct_scan']
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    img=cv2.imread('ctscan_images\\'+filename)
+    print(img.shape)
+    categories=["CT_COVID","CT_NonCOVID"]
+    label_dict={"CT_COVID":0,"CT_NonCOVID":1}
+    img=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    img=cv2.resize(img,(100,100))
+    img2=np.expand_dims(img,axis=0)
+    img2=img2.reshape((1,100,100,1))
+    predictions=model.predict(img2)
+    category_index=model.predict_classes(img2)
+    if(categories[category_index[0]]=="CT_COVID"):
+        pred="Covid +ve"
+    else:
+        pred="Covid -ve"
     return render_template('predict.html',value = pred)
 
 
